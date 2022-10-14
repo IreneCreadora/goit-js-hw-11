@@ -1,10 +1,6 @@
-.container {
-  max-width: 1200px;
-  padding-left: 30px;
-  padding-right: 30px;
-  margin-left: auto;
-  margin-right: auto;
-}
+// .container {
+
+// }
 
 button {
   font-size: 14px;
@@ -39,7 +35,10 @@ input {
 }
 
 .gallery {
-  margin-top: 30px;
+  max-width: 1200px;
+  // padding-left: 30px;
+  // padding-right: 30px;
+  margin: 30px auto;
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
