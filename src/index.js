@@ -108,7 +108,7 @@ function onLoadMore() {
     .then(({ hits }) => {
       const markup = [...hits].map(createMarkup);
       refs.gallery.insertAdjacentHTML('beforeend', markup.join(''));
-      // lightBox.refresh();
+      lightBox.refresh();
     })
     .catch(error => {
       Notify.failure(`${error.message}`, notifyOptions);
