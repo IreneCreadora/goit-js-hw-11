@@ -27,7 +27,7 @@ const callback = async function (entries, observer) {
         const markup = [...hits].map(createMarkup);
         refs.gallery.insertAdjacentHTML('beforeend', markup.join(''));
         createLightBox();
-        lightBox.refresh();
+        // lightBox.refresh();
 
         if (pixabay.isShowLoadMore) {
           const target = document.querySelector('.gallery-card:last-child');
