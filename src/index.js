@@ -9,6 +9,8 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const pixabay = new PixabayAPI();
 
+const lightBox = new SimpleLightbox('.gallery a');
+
 const options = {
   root: null,
   rootMargin: '100px',
@@ -26,8 +28,7 @@ const callback = async function (entries, observer) {
         const { hits } = await pixabay.getImages();
         const markup = [...hits].map(createMarkup);
         refs.gallery.insertAdjacentHTML('beforeend', markup.join(''));
-        createLightBox();
-        // lightBox.refresh();
+        lightBox.refresh();
 
         if (pixabay.isShowLoadMore) {
           const target = document.querySelector('.gallery-card:last-child');
@@ -71,7 +72,7 @@ async function onFormSubmit(e) {
     }
     const markup = [...hits].map(createMarkup);
     refs.gallery.insertAdjacentHTML('beforeend', markup.join(''));
-    createLightBox();
+    lightBox.refresh();
 
     pixabay.calculateTotalPages(totalHits);
 
@@ -83,7 +84,6 @@ async function onFormSubmit(e) {
     if (pixabay.isShowLoadMore) {
       const target = document.querySelector('.gallery-card:last-child');
       console.log(target);
-
       io.observe(target);
     }
   } catch (error) {
@@ -92,39 +92,35 @@ async function onFormSubmit(e) {
   }
 }
 
-function onLoadMore() {
-  pixabay.incrementPage();
+// function onLoadMore() {
+//   pixabay.incrementPage();
 
-  if (!pixabay.isShowLoadMore) {
-    Notify.info(
-      `We're sorry, but you've reached the end of search results.`,
-      notifyOptions
-    );
-    refs.loadMoreBtn.classList.add('is-hidden');
-  }
+//   if (!pixabay.isShowLoadMore) {
+//     Notify.info(
+//       `We're sorry, but you've reached the end of search results.`,
+//       notifyOptions
+//     );
+//     refs.loadMoreBtn.classList.add('is-hidden');
+//   }
 
-  pixabay
-    .getImages()
-    .then(({ hits }) => {
-      const markup = [...hits].map(createMarkup);
-      refs.gallery.insertAdjacentHTML('beforeend', markup.join(''));
-      lightBox.refresh();
-    })
-    .catch(error => {
-      Notify.failure(`${error.message}`, notifyOptions);
-      clearPage();
-    });
-}
+//   pixabay
+//     .getImages()
+//     .then(({ hits }) => {
+//       const markup = [...hits].map(createMarkup);
+//       refs.gallery.insertAdjacentHTML('beforeend', markup.join(''));
+//       lightBox.refresh();
+//     })
+//     .catch(error => {
+//       Notify.failure(`${error.message}`, notifyOptions);
+//       clearPage();
+//     });
+// }
 
 refs.form.addEventListener('submit', onFormSubmit);
-refs.loadMoreBtn.addEventListener('click', onLoadMore);
+// refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
 function clearPage() {
   pixabay.resetPage();
   refs.gallery.innerHTML = '';
   refs.loadMoreBtn.classList.add('is-hidden');
-}
-
-function createLightBox() {
-  lightBox = new SimpleLightbox('.gallery a');
 }
